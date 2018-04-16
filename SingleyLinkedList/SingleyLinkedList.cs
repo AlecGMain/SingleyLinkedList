@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SingleyLinkedList
 {
-    public class SingleyLinkedList<T>
+    public class SingleyLinkedList<T> where T : IComparable<T>
     {
         Node<T> head;
 
@@ -42,20 +42,34 @@ namespace SingleyLinkedList
                     tempNode = tempNode.Next;
                 }
                 tempNode.Next = new Node<T>(Value);
+                
             }
         }
-        public void Remove(T Value)
+        public bool Remove(T Value)
         {
-            if(head == null)
+            //add a check to see if the value is in the list before doing anything else...
+            Node<T> temp = head;
+            
+            while (temp.Next != null)
             {
-
+                temp = temp.Next;
+            }
+            if (head.Value.CompareTo(Value) == 0)
+            {
+                head = head.Next;
+                return true;
             }
             else
-            {
-                while (current.Next != null)
+            { 
+          
+                bool found = false;
+                Node<T> current = head;
+                while (current.Next.Value.CompareTo(Value) != 0)
                 {
+
                     current = current.Next;
                 }
+
             }
         }
     }

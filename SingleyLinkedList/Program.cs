@@ -17,7 +17,7 @@ namespace SingleyLinkedList
             //head.Next.Next.Next.Next = new Node(0); //pat
 
 
-            //Node current = head;
+            //Node<T> current = head;
 
             //while (current.Next != null)
             //{
