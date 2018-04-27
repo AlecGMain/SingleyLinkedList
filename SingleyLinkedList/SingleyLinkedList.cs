@@ -8,15 +8,53 @@ namespace SingleyLinkedList
 {
     public class SingleyLinkedList<T> where T : IComparable<T>
     {
-        Node<T> head;
+        public Node<T> head;
+        public int Count { get; private set; }
+
+
+        public T this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= Count)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
+                var curr = head;
+                for (int i = 0; i < index; i++)
+                {
+                    curr = curr.Next;
+                }
+
+                return curr.Value;
+            }
+            set
+            {
+                if (index < 0 || index >= Count)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
+                var curr = head;
+                for (int i = 0; i < index; i++)
+                {
+                    curr = curr.Next;
+                }
+
+                curr.Value = value;
+            }
+        }
+
 
         public SingleyLinkedList()
         {
-
+            Count = 0;
         }
 
         public void AddFirst(T Value)
         {
+            Count++;
             if (head == null)
             {
                 head = new Node<T>(Value);
@@ -30,6 +68,7 @@ namespace SingleyLinkedList
         }
         public void AddLast(T Value)
         {
+            Count++;
             Node<T> tempNode = head;
             if (head == null)
             {
@@ -55,7 +94,7 @@ namespace SingleyLinkedList
             {
                 if (temp.Value.CompareTo(Value) == 0)
                 {
-                    
+
                     exists = true;
                 }
 
@@ -64,6 +103,7 @@ namespace SingleyLinkedList
 
             if (head.Value.CompareTo(Value) == 0)
             {
+                Count--;
                 head = head.Next; //technically doesn't change the structure but since there is no way to reach the original head it is cleaned up by the garbage collecter
                 return true;
             }
@@ -74,6 +114,7 @@ namespace SingleyLinkedList
 
             else
             {
+                Count--;
                 Node<T> current = head;
 
                 while (current.Next != null)
@@ -81,7 +122,6 @@ namespace SingleyLinkedList
                     if (current.Next.Value.CompareTo(Value) == 0)
                     {
                         current.Next = current.Next.Next;
-                        head = current;//changes the structure
                         return true;
                     }
                     current = current.Next; //does not change the structure
@@ -93,18 +133,23 @@ namespace SingleyLinkedList
         }
         public bool RemoveAt(int Index)
         {
+
+
             if (head == null)
             {
                 return false;
             }
-            
+
             if (Index == 0)
             {
                 head = head.Next;
+                Count--;
                 return true;
             }
             else if (Index > 0)
             {
+                //for loop to index before the index we want to remove and link around the index
+
                 Node<T> current = head;
                 for (int i = 0; i < Index - 1; i++)
                 {
@@ -120,20 +165,17 @@ namespace SingleyLinkedList
                 if (current.Next != null)
                 {
                     current.Next = current.Next.Next;
-                    head = current;
-                    return true; 
+                    Count--;
+                    return true;
                 }
                 else
                 {
                     return false;
                 }
-           
+
             }
-            else
-            {
-                return false;
-            }
-            
+
+            return false;
         }
         public bool IsEmpty()
         {
@@ -148,6 +190,7 @@ namespace SingleyLinkedList
         }
         public void Clear()
         {
+            Count = 0;
             head = null;
         }
         public bool Contains(T Value)
@@ -167,11 +210,11 @@ namespace SingleyLinkedList
             }
             while (current.Next != null)
             {
-                if(current.Next.Value.CompareTo(Value) == 0)
+                if (current.Next.Value.CompareTo(Value) == 0)
                 {
                     return true;
                 }
-                
+
                 current = current.Next;
             }
             return contains;
@@ -201,30 +244,8 @@ namespace SingleyLinkedList
             }
             return null;
         }
-        public int Count()
-        {
-            if(head == null)
-            {
-                return 0;
-            }
-            else if (head.Next == null)
-            {
-                return 1;
-            }
-            else
-            {
-                int count = 1;
-                while (current.Next != null)
-                {
-                    if (current.Next.Value.CompareTo(Value) == 0)
-                    {
-                        return current;
-                    }
 
-                    current = current.Next;
-                }
-            }
-        }
-    }
+
     }
 }
+
